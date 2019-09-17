@@ -1,0 +1,41 @@
+{
+  "continue": {
+    "rvcontinue": "20190914003117|915560637",
+    "continue": "||"
+  },
+  "query": {
+    "redirects": [
+      {
+        "from": "Zappa",
+        "to": "Frank Zappa"
+      }
+    ],
+    "pages": {
+      "10672": {
+        "pageid": 10672,
+        "ns": 0,
+        "title": "Frank Zappa",
+        "revisions": [
+          {
+            "user": "RL0919",
+            "timestamp": "2019-09-14T21:14:54Z"
+          },
+          {
+            "user": "DVdm",
+            "timestamp": "2019-09-14T08:14:03Z"
+          },
+          {
+            "user": "86.13.118.247",
+            "anon": "",
+            "timestamp": "2019-09-14T00:36:10Z"
+          },
+          {
+            "user": "86.13.118.247",
+            "anon": "",
+            "timestamp": "2019-09-14T00:31:36Z"
+          }
+        ]
+      }
+    }
+  }
+}
