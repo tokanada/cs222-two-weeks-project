@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="TWP-dtao-ysu" />
+        <module name="TWPdtaoysu" />
       </profile>
     </annotationProcessing>
   </component>
