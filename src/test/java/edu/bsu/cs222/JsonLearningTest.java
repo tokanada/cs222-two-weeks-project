@@ -31,24 +31,4 @@ public class JsonLearningTest {
         }
         Assert.assertEquals(4, array.size());
     }
-
-    @Test
-    public void testGetFirstRevisionAuthor(){
-        JsonParser parser = new JsonParser();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("WikipediaApiResults.json");
-        Reader reader = new InputStreamReader(inputStream);
-        JsonElement rootElement = parser.parse(reader);
-        JsonObject rootObject = rootElement.getAsJsonObject();
-        JsonObject pages = rootObject.getAsJsonObject("query").getAsJsonObject("pages");
-        JsonArray array = null;
-
-        for (Map.Entry<String,JsonElement> entry : pages.entrySet()) {
-            JsonObject entryObject = entry.getValue().getAsJsonObject();
-            array = entryObject.getAsJsonArray("revisions");
-        }
-
-
-
-        Assert.assertEquals(4, array.size());
-    }
 }
