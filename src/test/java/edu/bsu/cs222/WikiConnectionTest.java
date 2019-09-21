@@ -31,7 +31,12 @@ public class WikiConnectionTest {
         URLConnection connection = WikiConnection.connectToWikipedia(encodedSearch);
         InputStream inputStream = connection.getInputStream();
         List<Revision> revisionList = parser.parse(inputStream);
-        System.out.println(revisionList.get(0).getUser());
         Assert.assertEquals(revisionList.size(), 24);
+    }
+
+    @Test
+    public void testIfNoResults() {
+        WikiConnection wikiConnection = new WikiConnection();
+        Assert.assertFalse(wikiConnection.areResultsFor("asdklfj"));
     }
 }

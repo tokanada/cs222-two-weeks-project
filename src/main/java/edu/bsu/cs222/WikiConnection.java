@@ -1,6 +1,11 @@
 package edu.bsu.cs222;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -27,5 +32,15 @@ public class WikiConnection {
         } catch (IOException e) {
             throw new RuntimeException(e.getCause());
         }
+    }
+
+
+    public boolean areResultsFor(String searchTerm) {
+        String encodedSearch = WikiURLEncoder.encode(searchTerm);
+        URLConnection urlConnection = connectToWikipedia(encodedSearch);
+        RevisionParser parser = new RevisionParser();
+
+
+        return false;
     }
 }
