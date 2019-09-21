@@ -15,9 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 public class RevisionParser {
+
     public List<Revision> parse(InputStream sampleInput) throws IOException, SAXException {
+        List<Revision> revisionList = new ArrayList<>();
         JsonParser parser = new JsonParser();
+
         Reader reader = new InputStreamReader(sampleInput);
+
         JsonElement rootElement = parser.parse(reader);
         JsonObject rootObject = rootElement.getAsJsonObject();
         JsonObject pages = rootObject.getAsJsonObject("query").getAsJsonObject("pages");
@@ -28,15 +32,22 @@ public class RevisionParser {
             revisionArray = entryObject.getAsJsonArray("revisions");
         }
 
-        List<Revision> result = new ArrayList<>();
-        for (int i = 0; i < revisionArray.size(); i++){
-            result.add(new Revision());
-        }
+        assert revisionArray != null;
 
-        for (int i = 0; i < revisionArray.size(); i++){
-            System.out.println(revisionArray.get(i));
+        revisionList = jsonArrayReader(revisionList, revisionArray);
+
+        return revisionList;
+    }
+
+    private List<Revision> jsonArrayReader(List<Revision> revisionList, JsonArray jsonArray) {
+        for (JsonElement jsonElement : jsonArray) {
+            String userElement = jsonElement.getAsJsonObject().get("user").getAsString();
+            String timestampElement = jsonElement.getAsJsonObject().get("timestamp").getAsString();
+            Boolean anonymous = jsonElement.getAsJsonObject().has("anon");
+            Revision revision = new Revision(userElement, timestampElement, anonymous);
+            revisionList.add(revision);
         }
-        return result;
+        return revisionList;
     }
 
 }
