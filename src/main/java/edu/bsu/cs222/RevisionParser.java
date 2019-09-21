@@ -34,7 +34,7 @@ public class RevisionParser {
 
             return revisionList;
         } catch (Exception e){
-            throw new RuntimeException(e.getCause());
+            return null;
         }
     }
 
