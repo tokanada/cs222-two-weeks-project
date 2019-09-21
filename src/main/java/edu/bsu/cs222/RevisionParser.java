@@ -16,27 +16,26 @@ import java.util.Map;
 
 public class RevisionParser {
 
-    public List<Revision> parse(InputStream sampleInput) throws IOException, SAXException {
-        List<Revision> revisionList = new ArrayList<>();
-        JsonParser parser = new JsonParser();
+    public List<Revision> parse(InputStream sampleInput) {
+        try {
+            List<Revision> revisionList = new ArrayList<>();
+            JsonParser parser = new JsonParser();
 
-        Reader reader = new InputStreamReader(sampleInput);
+            Reader reader = new InputStreamReader(sampleInput);
 
-        JsonElement rootElement = parser.parse(reader);
-        JsonObject rootObject = rootElement.getAsJsonObject();
-        JsonObject pages = rootObject.getAsJsonObject("query").getAsJsonObject("pages");
-        JsonArray revisionArray = null;
+            JsonElement rootElement = parser.parse(reader);
+            JsonObject rootObject = rootElement.getAsJsonObject();
+            JsonObject pages = rootObject.getAsJsonObject("query").getAsJsonObject("pages");
+            JsonArray revisionArray = null;
 
-        for (Map.Entry<String,JsonElement> entry : pages.entrySet()) {
-            JsonObject entryObject = entry.getValue().getAsJsonObject();
-            revisionArray = entryObject.getAsJsonArray("revisions");
+            revisionArray = populateJsonArray(revisionArray, pages);
+
+            revisionList = jsonArrayReader(revisionList, revisionArray);
+
+            return revisionList;
+        } catch (Exception e){
+            throw new RuntimeException(e.getCause());
         }
-
-        assert revisionArray != null;
-
-        revisionList = jsonArrayReader(revisionList, revisionArray);
-
-        return revisionList;
     }
 
     private List<Revision> jsonArrayReader(List<Revision> revisionList, JsonArray jsonArray) {
@@ -48,6 +47,15 @@ public class RevisionParser {
             revisionList.add(revision);
         }
         return revisionList;
+    }
+
+    private JsonArray populateJsonArray(JsonArray jsonArray, JsonObject pages){
+        for (Map.Entry<String,JsonElement> entry : pages.entrySet()) {
+            JsonObject entryObject = entry.getValue().getAsJsonObject();
+            jsonArray = entryObject.getAsJsonArray("revisions");
+        }
+
+        return jsonArray;
     }
 
 }
