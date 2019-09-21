@@ -16,4 +16,16 @@ public class WikiConnection {
             return false;
         }
     }
+
+    public static URLConnection connectToWikipedia(String searchTerm) {
+        try {
+            URL url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles="+ searchTerm +"&redirects=1&rvprop=timestamp%7Cuser&rvlimit=24");
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.setRequestProperty("User-Agent", "RevisionTracker/0.1 (dtao@bsu.edu)");
+            urlConnection.connect();
+            return urlConnection;
+        } catch (IOException e) {
+            throw new RuntimeException(e.getCause());
+        }
+    }
 }
