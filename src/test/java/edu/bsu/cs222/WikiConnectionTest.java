@@ -39,4 +39,10 @@ public class WikiConnectionTest {
         WikiConnection wikiConnection = new WikiConnection();
         Assert.assertFalse(wikiConnection.areResultsFor("asdklfj"));
     }
+
+    @Test
+    public void testIfHasResults() {
+        WikiConnection wikiConnection = new WikiConnection();
+        Assert.assertTrue(wikiConnection.areResultsFor("Zappa"));
+    }
 }
