@@ -35,12 +35,20 @@ public class WikiConnection {
     }
 
 
-    public boolean areResultsFor(String searchTerm) {
-        String encodedSearch = WikiURLEncoder.encode(searchTerm);
-        URLConnection urlConnection = connectToWikipedia(encodedSearch);
-        RevisionParser parser = new RevisionParser();
+    public boolean hasWikiResults(String searchTerm) {
+        try {
+            String encodedSearch = WikiURLEncoder.encode(searchTerm);
+            URLConnection urlConnection = connectToWikipedia(encodedSearch);
+            RevisionParser parser = new RevisionParser();
+            InputStream inputStream = urlConnection.getInputStream();
 
-
-        return false;
+            if(parser.parse(inputStream) == null){
+                return false;
+            } else {
+                return true;
+            }
+        } catch (IOException e) {
+            return false;
+        }
     }
 }
