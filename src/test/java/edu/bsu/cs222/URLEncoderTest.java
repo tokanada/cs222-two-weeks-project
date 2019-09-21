@@ -7,7 +7,7 @@ public class URLEncoderTest {
 
     @Test
     public void testWikiURLEncoderWithSpace() {
-        String encodeURL = WikiURLEncoder.encode("Green Day");
+        String encodeURL = WikiURLEncoder.encode("Frank Zappa");
         Assert.assertEquals(encodeURL, "Frank+Zappa");
     }
 }
