@@ -1,5 +1,7 @@
-package edu.bsu.cs222;
+package edu.bsu.cs222.app;
 
+import edu.bsu.cs222.Revision;
+import edu.bsu.cs222.RevisionParser;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
