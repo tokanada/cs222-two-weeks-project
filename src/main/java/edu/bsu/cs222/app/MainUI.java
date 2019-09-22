@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import org.xml.sax.SAXException;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
