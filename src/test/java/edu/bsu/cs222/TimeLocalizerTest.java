@@ -2,6 +2,8 @@ package edu.bsu.cs222;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 public class TimeLocalizerTest {
     @Test
     public void testStringToDateConversion() {
