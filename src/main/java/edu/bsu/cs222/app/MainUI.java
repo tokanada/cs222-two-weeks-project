@@ -28,22 +28,24 @@ public class MainUI extends Application {
 
     private Scene createScene() {
         final TextField jsonArea = new TextField();
-        final Button button = new Button("Search");
+        final Button button1 = new Button("Search");
+        final Button button2 = new Button("Sort");
         final TextArea outputField = new TextArea();
         outputField.setEditable(false);
-        button.setOnAction(event -> {
+        button1.setOnAction(event -> {
             List<Revision> revisionList = new ArrayList<>();
             String textBoxInput = jsonArea.getText();
             if(!isConnectedToInternet()){
-
-            };
-            revisionList = retrieveRevisionList(revisionList, textBoxInput);
-            outputField.setText(printList(revisionList));
+                outputField.setText("Could Not Connect to Wikipedia.\nPlease check your connection and try again.");
+            }else {
+                revisionList = retrieveRevisionList(revisionList, textBoxInput);
+                outputField.setText(printList(revisionList));
+            }
         });
         return new Scene(new VBox(
                 new Label("Enter your Search Term below"),
                 jsonArea,
-                button,
+                button1, button2,
                 outputField));
     }
 
