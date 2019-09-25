@@ -28,25 +28,41 @@ public class MainUI extends Application {
 
     private Scene createScene() {
         final TextField jsonArea = new TextField();
-        final Button button1 = new Button("Search");
-        final Button button2 = new Button("Sort");
+        final Button searchButton = new Button("Search");
+        final Button sortButton = new Button("Sort");
         final TextArea outputField = new TextArea();
         outputField.setEditable(false);
-        button1.setOnAction(event -> {
-            List<Revision> revisionList = new ArrayList<>();
+        searchButton.setOnAction(event -> {
             String textBoxInput = jsonArea.getText();
-            if(!isConnectedToInternet()){
-                outputField.setText("Could Not Connect to Wikipedia.\nPlease check your connection and try again.");
-            }else {
-                revisionList = retrieveRevisionList(revisionList, textBoxInput);
-                outputField.setText(printList(revisionList));
-            }
+            String output = searchButtonPressEvent(textBoxInput);
+            outputField.setText(output);
         });
+
         return new Scene(new VBox(
                 new Label("Enter your Search Term below"),
                 jsonArea,
-                button1, button2,
+                searchButton, sortButton,
                 outputField));
+    }
+
+    private String searchButtonPressEvent(String textBoxInput) {
+        List<Revision> revisionList = new ArrayList<>();
+        String output = "";
+        if(!isConnectedToInternet()){
+            output = "Could Not Connect to Wikipedia.\nPlease check your connection and try again.";
+        }else {
+            String isRedirected = checkForRedirects();
+            revisionList = retrieveRevisionList(revisionList, textBoxInput);
+            output = printList(revisionList);
+        }
+        return output;
+    }
+
+    private String checkForRedirects() {
+        RevisionParser parser = new RevisionParser();
+        if(parser.isRedirected()){
+            return "You have been redirected to "
+        }
     }
 
     private boolean isConnectedToInternet() {
@@ -70,12 +86,15 @@ public class MainUI extends Application {
 
     private String printList(List<Revision> revisionList) {
         String outputString = "";
+
+        if(revisionList == null) {
+            return "No Results Found";
+        }
+
         for (Revision revision : revisionList){
             outputString += "User: " + revision.getUser() + "\nDate: " + revision.getTimestamp() + "\n\n";
         }
-        if(revisionList == null) {
-            return null;
-        }
+
         return outputString;
     }
 

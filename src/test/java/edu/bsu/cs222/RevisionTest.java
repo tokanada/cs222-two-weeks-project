@@ -11,4 +11,10 @@ public class RevisionTest {
         Assert.assertEquals("2019-09-14T21:14:54Z", revision.getTimestamp());
         Assert.assertEquals(false, revision.isAnonymous());
     }
+
+    @Test
+    public void testRedirectRevision() {
+        Revision redirectRevision = new Revision("Zappa", "Frank Zappa");
+        Assert.assertEquals("");
+    }
 }

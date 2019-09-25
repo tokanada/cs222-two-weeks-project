@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 public class RevisionParser {
+    private boolean isRedirected;
+    private JsonArray redirectArray = null;
 
     public List<Revision> parse(InputStream sampleInput) {
         try {
@@ -26,15 +28,44 @@ public class RevisionParser {
             JsonElement rootElement = parser.parse(reader);
             JsonObject rootObject = rootElement.getAsJsonObject();
             JsonObject pages = rootObject.getAsJsonObject("query").getAsJsonObject("pages");
+            JsonObject redirects = rootObject.getAsJsonObject("query").getAsJsonObject("redirects");
             JsonArray revisionArray = null;
-
+            isRedirected = checkForRedirect(redirects);
             revisionArray = populateJsonArray(revisionArray, pages);
-
             revisionList = jsonArrayReader(revisionList, revisionArray);
-
             return revisionList;
         } catch (Exception e){
             return null;
+        }
+    }
+
+    public boolean isRedirected() {
+        return isRedirected;
+    }
+
+    private void redirectReader(JsonObject redirects) {
+        redirectArray = populateRedirectArray(redirectArray, redirects);
+    }
+
+    private JsonArray populateRedirectArray(JsonArray redirectArray, JsonObject redirects) {
+        for (Map.Entry<String,JsonElement> entry : redirects.entrySet()) {
+            JsonObject entryObject = entry.getValue().getAsJsonObject();
+            redirectArray = entryObject.getAsJsonArray("revisions");
+        }
+
+        return redirectArray;
+    }
+
+    public String getRedirectInfo() {
+
+    }
+
+    private boolean checkForRedirect(JsonObject redirects) {
+        if(redirects == null){
+            return false;
+        }else {
+            redirectReader(redirects);
+            return true;
         }
     }
 
