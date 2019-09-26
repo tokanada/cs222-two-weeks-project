@@ -18,6 +18,9 @@ public class RedirectParser {
             JsonObject rootObject = rootElement.getAsJsonObject();
             JsonObject query = rootObject.getAsJsonObject("query").getAsJsonObject();
             JsonElement redirectElement = query.getAsJsonArray("redirects").get(0);
+            if (redirectElement == null) {
+                return null;
+            }
             String originalSearchTerm = redirectElement.getAsJsonObject().get("from").getAsString();
             String newSearchTerm = redirectElement.getAsJsonObject().get("to").getAsString();
             return new Redirect(originalSearchTerm, newSearchTerm);
