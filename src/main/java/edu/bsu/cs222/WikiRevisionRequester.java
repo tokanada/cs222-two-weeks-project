@@ -21,7 +21,7 @@ class WikiRevisionRequester {
 
     String retrieveResultsByFrequency(String inputString) {
         if(isConnectedToInternet()){
-            return "Could Not Connect to Wikipedia.\\nPlease check your connection and try again.";
+            return "Could Not Connect to Wikipedia.\nPlease check your connection and try again.";
         }
         InputStream inputStream = retrieveInputStream(inputString);
         List<Revision> revisionList = retrieveRevisionList(inputStream);
