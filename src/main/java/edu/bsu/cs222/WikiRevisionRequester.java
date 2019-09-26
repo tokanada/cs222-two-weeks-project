@@ -78,9 +78,11 @@ class WikiRevisionRequester {
         RedirectParser redirectParser = new RedirectParser();
         Redirect redirect = redirectParser.parse(inputStream);
 
-        if(redirect.isRedirected()){
+        if (redirect == null){
+            return "";
+        } else if(redirect.isRedirected()){
             return "You have been redirected from " + redirect.getOriginalSearchTerm() + " to " + redirect.getRedirectSearchTerm() + "\n\n";
-        }else {
+        } else {
             return "";
         }
     }
