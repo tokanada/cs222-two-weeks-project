@@ -4,9 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.xml.sax.SAXException;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -15,78 +13,40 @@ import java.util.List;
 import java.util.Map;
 
 public class RevisionParser {
-    private boolean isRedirected;
-    private JsonArray redirectArray = null;
 
-    public List<Revision> parse(InputStream sampleInput) {
+    public List<Revision> parse(InputStream inputStream) {
         try {
-            List<Revision> revisionList = new ArrayList<>();
             JsonParser parser = new JsonParser();
-
-            Reader reader = new InputStreamReader(sampleInput);
-
+            Reader reader = new InputStreamReader(inputStream);
             JsonElement rootElement = parser.parse(reader);
             JsonObject rootObject = rootElement.getAsJsonObject();
             JsonObject pages = rootObject.getAsJsonObject("query").getAsJsonObject("pages");
-            JsonObject redirects = rootObject.getAsJsonObject("query").getAsJsonObject("redirects");
-            JsonArray revisionArray = null;
-            isRedirected = checkForRedirect(redirects);
+            JsonArray revisionArray = new JsonArray();
             revisionArray = populateJsonArray(revisionArray, pages);
-            revisionList = jsonArrayReader(revisionList, revisionArray);
-            return revisionList;
+            return jsonArrayReader(revisionArray);
         } catch (Exception e){
             return null;
         }
     }
 
-    public boolean isRedirected() {
-        return isRedirected;
-    }
-
-    private void redirectReader(JsonObject redirects) {
-        redirectArray = populateRedirectArray(redirectArray, redirects);
-    }
-
-    private JsonArray populateRedirectArray(JsonArray redirectArray, JsonObject redirects) {
-        for (Map.Entry<String,JsonElement> entry : redirects.entrySet()) {
+    private JsonArray populateJsonArray(JsonArray jsonArray, JsonObject pagesObject){
+        for (Map.Entry<String,JsonElement> entry : pagesObject.entrySet()) {
             JsonObject entryObject = entry.getValue().getAsJsonObject();
-            redirectArray = entryObject.getAsJsonArray("revisions");
+            jsonArray = entryObject.getAsJsonArray("revisions");
         }
-
-        return redirectArray;
+        return jsonArray;
     }
 
-    public String getRedirectInfo() {
-
-    }
-
-    private boolean checkForRedirect(JsonObject redirects) {
-        if(redirects == null){
-            return false;
-        }else {
-            redirectReader(redirects);
-            return true;
-        }
-    }
-
-    private List<Revision> jsonArrayReader(List<Revision> revisionList, JsonArray jsonArray) {
+    private List<Revision> jsonArrayReader(JsonArray jsonArray) {
+        List<Revision> revisionList = new ArrayList<>();
         for (JsonElement jsonElement : jsonArray) {
             String userElement = jsonElement.getAsJsonObject().get("user").getAsString();
             String timestampElement = jsonElement.getAsJsonObject().get("timestamp").getAsString();
-            Boolean anonymous = jsonElement.getAsJsonObject().has("anon");
-            Revision revision = new Revision(userElement, timestampElement, anonymous);
+            timestampElement = TimeLocalizer.getLocalizedDateTime(timestampElement);
+            boolean isAnonymous = jsonElement.getAsJsonObject().has("anon");
+            Revision revision = new Revision(userElement, timestampElement, isAnonymous);
             revisionList.add(revision);
         }
         return revisionList;
     }
-
-    private JsonArray populateJsonArray(JsonArray jsonArray, JsonObject pages){
-        for (Map.Entry<String,JsonElement> entry : pages.entrySet()) {
-            JsonObject entryObject = entry.getValue().getAsJsonObject();
-            jsonArray = entryObject.getAsJsonArray("revisions");
-        }
-
-        return jsonArray;
-    }
-
 }
