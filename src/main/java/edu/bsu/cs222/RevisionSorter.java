@@ -1,16 +1,16 @@
 package edu.bsu.cs222;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 class RevisionSorter {
-
 
     List<Revision> sortByMostRevisions(List<Revision> unsortedList) {
         try {
             List<String> usernameList = populateList(unsortedList);
             Map<String, Integer> unsortedMap = new HashMap<>();
             countOccurrences(usernameList, unsortedMap);
-            HashMap sortedMap = sortMap(unsortedMap);
+            Map<String, Integer> sortedMap = sortMap(unsortedMap);
             return sortRevisionList(sortedMap, unsortedList);
         } catch (NullPointerException e) {
             return null;
@@ -67,20 +67,10 @@ class RevisionSorter {
         return userList;
     }
 
-    private HashMap sortMap(Map<String, Integer> unsortedMap) {
-        List<Object> linkedList = new LinkedList<>(unsortedMap.entrySet());
-        Collections.sort(linkedList, new Comparator() {
-            public int compare(Object firstValue, Object secondValue) {
-                return ((Comparable) ((Map.Entry) (secondValue)).getValue())
-                        .compareTo(((Map.Entry) (firstValue)).getValue());
-            }
-        });
-        HashMap sortedHashMap = new LinkedHashMap();
-        for (Object o : linkedList) {
-            Map.Entry entry = (Map.Entry) o;
-            sortedHashMap.put(entry.getKey(), entry.getValue());
-        }
-        return sortedHashMap;
+    private Map<String, Integer> sortMap(Map<String, Integer> unsortedMap) {
+        List<Map.Entry<String, Integer>> linkedList = new LinkedList<>(unsortedMap.entrySet());
+        linkedList.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+        return linkedList.stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, LinkedHashMap::new));
     }
 
     private List<String> populateList(List<Revision> revisionList) {
