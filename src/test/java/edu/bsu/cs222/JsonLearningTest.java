@@ -18,6 +18,7 @@ public class JsonLearningTest {
     public void testCountRevisions (){
         JsonParser parser = new JsonParser();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("WikipediaApiResults.json");
+        assert inputStream != null;
         Reader reader = new InputStreamReader(inputStream);
         JsonElement rootElement = parser.parse(reader);
         JsonObject rootObject = rootElement.getAsJsonObject();
@@ -29,6 +30,7 @@ public class JsonLearningTest {
             array = entryObject.getAsJsonArray("revisions");
 
         }
+        assert array != null;
         Assert.assertEquals(4, array.size());
     }
 }

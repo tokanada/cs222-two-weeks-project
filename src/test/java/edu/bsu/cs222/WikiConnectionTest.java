@@ -11,14 +11,12 @@ import java.util.List;
 public class WikiConnectionTest {
     @Test
     public void testIsOnline() {
-        WikiConnection wikiConnection = new WikiConnection();
-        Assert.assertTrue(wikiConnection.isOnline());
+        Assert.assertTrue(WikiConnection.isOnline());
     }
 
     @Test
     public void testConnectToWikipedia() {
-        WikiConnection wikiConnection = new WikiConnection();
-        Assert.assertNotNull(wikiConnection.connectToWikipedia("youtube"));
+        Assert.assertNotNull(WikiConnection.connectToWikipedia("youtube"));
     }
 
     @Test
@@ -45,13 +43,11 @@ public class WikiConnectionTest {
 
     @Test
     public void testIfNoResults() {
-        WikiConnection wikiConnection = new WikiConnection();
-        Assert.assertFalse(wikiConnection.hasWikiResults("asdklfj"));
+        Assert.assertFalse(WikiConnection.hasWikiResults("asdklfj"));
     }
 
     @Test
     public void testIfHasResults() {
-        WikiConnection wikiConnection = new WikiConnection();
-        Assert.assertTrue(wikiConnection.hasWikiResults("Zappa"));
+        Assert.assertTrue(WikiConnection.hasWikiResults("Zappa"));
     }
 }

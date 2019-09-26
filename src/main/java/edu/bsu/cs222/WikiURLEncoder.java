@@ -4,11 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-public class WikiURLEncoder {
-    public static String encode(String inputString) {
+class WikiURLEncoder {
+    static String encode(String inputString) {
         try{
-            String encoding = URLEncoder.encode(inputString, StandardCharsets.UTF_8.toString());
-            return encoding;
+            return URLEncoder.encode(inputString, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e){
             throw new RuntimeException(e.getCause());
         }
