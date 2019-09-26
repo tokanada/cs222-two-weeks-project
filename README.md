@@ -10,6 +10,9 @@ This is an  interactive  graphical software application that pulls and aggregate
 # Goal
 For the (fictitious) client, Orwellian News Service (ONS), who are currently involved in some investigative journalism around global politics. Staffers are trying to track down  the  behaviors  of  editors  on  Wikipedia,  specifically  those  around  government leaders. This project was created to meet their needs.
 
+# Build Instructions
+Run MainUI.java
+
 # Technology Used
 <b> Coded in </b>
 
