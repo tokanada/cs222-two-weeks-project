@@ -2,7 +2,7 @@
 
     Authors: David Tao & Yanni Su
     
-[![Watch A Demonstration](https://i.imgur.com/59p0L7A.png)](https://www.youtube.com/watch?v=YITnOB4aOCo)
+[![Watch A Demonstration](https://i.imgur.com/FzLMz5p.png)](https://www.youtube.com/watch?v=YITnOB4aOCo)
 
 # Introduction
 This is an  interactive  graphical software application that pulls and aggregates live data from Wikipedia. 
