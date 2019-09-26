@@ -2,27 +2,23 @@ package edu.bsu.cs222;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
-public class TimeLocalizer {
-    public LocalDateTime convertToDate(String dateString) {
+class TimeLocalizer {
+
+    static String getLocalizedDateTime(String dateString) {
+        LocalDateTime dateTime = convertToDateTime(dateString);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("h:mm:ss a '|' MM/dd/yyyy", Locale.US);
+        return outputFormatter.format(dateTime);
+    }
+
+    private static LocalDateTime convertToDateTime(String dateString) {
         try {
-            dateString = dateString.replaceAll("T", "");
-            dateString = dateString.replaceAll("Z", "");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss");
-            LocalDateTime date = LocalDateTime.parse(dateString, formatter);
-            return date;
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+            return LocalDateTime.parse(dateString, inputFormatter);
         } catch (Exception e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
-    public LocalDateTime getMostRecentDate(LocalDateTime firstDate, LocalDateTime secondDate) {
-        LocalDateTime mostRecentDate;
-        if(firstDate.isAfter(secondDate)){
-            mostRecentDate = firstDate;
-        }else {
-            mostRecentDate = secondDate;
-        }
-        return mostRecentDate;
-    }
 }

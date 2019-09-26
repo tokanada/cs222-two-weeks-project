@@ -3,32 +3,17 @@ package edu.bsu.cs222;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
-
 public class TimeLocalizerTest {
+
     @Test
-    public void testStringToDateConversion() {
-        TimeLocalizer timeLocalizer = new TimeLocalizer();
-        LocalDateTime date = timeLocalizer.convertToDate("2019-09-14T08:10:20Z");
-        System.out.println(date);
-        Assert.assertNotNull(date);
+    public void testGetLocalizedDate24Hour() {
+        String localizedDate = TimeLocalizer.getLocalizedDateTime("2019-09-14T13:10:20Z");
+        Assert.assertEquals("1:10:20 PM | 09/14/2019", localizedDate);
     }
 
     @Test
-    public void testGetMostRecentDateCompare() {
-        TimeLocalizer timeLocalizer = new TimeLocalizer();
-        LocalDateTime firstDate = timeLocalizer.convertToDate("2019-09-14T08:10:20Z");
-        LocalDateTime secondDate = timeLocalizer.convertToDate("2019-09-13T08:10:20Z");
-        LocalDateTime mostRecentDate = timeLocalizer.getMostRecentDate(firstDate, secondDate);
-        Assert.assertEquals(firstDate, mostRecentDate);
-    }
-
-    @Test
-    public void testGetMostRecentTimeCompare() {
-        TimeLocalizer timeLocalizer = new TimeLocalizer();
-        LocalDateTime firstDate = timeLocalizer.convertToDate("2019-09-14T08:10:20Z");
-        LocalDateTime secondDate = timeLocalizer.convertToDate("2019-09-14T08:11:20Z");
-        LocalDateTime mostRecentDate = timeLocalizer.getMostRecentDate(firstDate, secondDate);
-        Assert.assertEquals(secondDate, mostRecentDate);
+    public void testGetLocalizeDate() {
+        String localizedDate = TimeLocalizer.getLocalizedDateTime("2019-09-14T07:10:20Z");
+        Assert.assertEquals("7:10:20 AM | 09/14/2019", localizedDate);
     }
 }
