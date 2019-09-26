@@ -9,7 +9,7 @@ class WikiRevisionRequester {
 
     String retrieveResultsByGrouping(String inputString) {
         if(isConnectedToInternet()){
-            return "Could Not Connect to Wikipedia.\\nPlease check your connection and try again.";
+            return "Could Not Connect to Wikipedia.\nPlease check your connection and try again.";
         }
         InputStream inputStream = retrieveInputStream(inputString);
         List<Revision> revisionList = retrieveRevisionList(inputStream);
@@ -33,7 +33,7 @@ class WikiRevisionRequester {
 
     String retrieveResultsByTime(String inputString) {
         if(isConnectedToInternet()){
-            return "Could Not Connect to Wikipedia.\\nPlease check your connection and try again.";
+            return "Could Not Connect to Wikipedia.\nPlease check your connection and try again.";
         }
         InputStream inputStream = retrieveInputStream(inputString);
         List<Revision> revisionList = retrieveRevisionList(inputStream);
@@ -77,7 +77,6 @@ class WikiRevisionRequester {
     private String checkForRedirects(InputStream inputStream) {
         RedirectParser redirectParser = new RedirectParser();
         Redirect redirect = redirectParser.parse(inputStream);
-
         if (redirect == null){
             return "";
         } else if(redirect.isRedirected()){
@@ -89,15 +88,12 @@ class WikiRevisionRequester {
 
     private String printList(List<Revision> revisionList, String redirectMessage) {
         StringBuilder outputString = new StringBuilder(redirectMessage);
-
         if(revisionList == null) {
             return "No Results Found";
         }
-
         for (Revision revision : revisionList){
             outputString.append("User: ").append(revision.getUser()).append("\nDate: ").append(revision.getTimestamp()).append("\n\n");
         }
-
         return outputString.toString();
     }
 }
